@@ -4,7 +4,8 @@ var User = require('../models/user');
 
 var authentication = require('../utils/authentication');
 
-router.post('/create', function (req, res) {
+router.post('/user', function (req, res) {
+  console.log('create user ', req.body);
   var user = new User({
     email: req.body.email,
     password: req.body.password,
@@ -12,7 +13,7 @@ router.post('/create', function (req, res) {
   });
   user.save(function (err, doc) {
     if (err) {
-      res.send({error: err.code});
+      res.status(400).send({error: err});
     } else {
       res.send({token: doc.token});
     }
@@ -20,6 +21,7 @@ router.post('/create', function (req, res) {
 });
 
 router.put('/login', function (req, res) {
+  console.log('login ', req.body);
   var reqUser = {email: req.body.email, password: req.body.password};
   console.log(req.body);
   User.findOneAndUpdate(reqUser, {
@@ -28,7 +30,7 @@ router.put('/login', function (req, res) {
     }
   }, {new: true}, function (err, user) {
     if (err) {
-      res.send({
+      res.status(400).send({
         error: "Error occured: " + err
       });
     } else {
@@ -37,8 +39,8 @@ router.put('/login', function (req, res) {
           token: user.token
         });
       } else {
-        res.send({
-          error: "Incorrect email/password"
+        res.status(400).send({
+          error: "Incorrect email or password"
         });
       }
     }

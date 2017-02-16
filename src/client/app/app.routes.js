@@ -1,29 +1,23 @@
 (function () {
   'use strict';
 
-  angular.module('app', ['ui.router']).config(function($stateProvider, $urlRouterProvider) {
+  angular.module('app').config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/login");
 
     $stateProvider
-      // .state('dashboard', {
-      //   url: '/dashboard',
-      //   templateUrl: 'app/dashboard/dashboard.html',
-      //   controller: 'DashboardController',
-      //   controllerAs: 'vm',
-      //   title: 'dashboard',
-      //   settings: {
-      //     nav: 1,
-      //     content: '<i class="fa fa-dashboard"></i> Dashboard'
-      //   }
-      // })
+      .state('home', {
+        url: '/home',
+        templateUrl: 'app/home/home.html',
+        controller: 'HomeController',
+        controllerAs: 'vm'
+      })
 
       .state('login', {
         url: '/login',
         templateUrl: 'app/login/login.html',
         controller: 'LoginController',
-        controllerAs: 'vm',
-        title: 'Login'
+        controllerAs: 'vm'
       })
 
   });
