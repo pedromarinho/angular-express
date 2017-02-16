@@ -4,13 +4,18 @@ var User = require('../models/user');
 
 var authentication = require('../utils/authentication');
 
+router.get('/user', authentication, function (req, res) {
+  User.find(function (err, user) {
+    if (err) return console.error(err);
+    res.send(user);
+  });
+});
+
 router.post('/user', function (req, res) {
   console.log('create user ', req.body);
-  var user = new User({
-    email: req.body.email,
-    password: req.body.password,
-    token: jwt.sign({email: req.body.email, password: req.body.password}, 'secret', {expiresIn: '1h'})
-  });
+  var newUser = req.body;
+  newUser.token = jwt.sign({email: newUser.email, password: newUser.password}, 'secret', {expiresIn: '1h'})
+  var user = new User(newUser);
   user.save(function (err, doc) {
     if (err) {
       res.status(400).send({error: err});
@@ -43,6 +48,16 @@ router.put('/login', function (req, res) {
           error: "Incorrect email or password"
         });
       }
+    }
+  });
+});
+
+router.delete('/user/:id', authentication, function (req, res) {
+  User.remove({_id: req.params.id}, function (err) {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+      res.send();
     }
   });
 });

@@ -11,6 +11,16 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
   token: {
     type: String,
     required: true

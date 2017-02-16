@@ -7,7 +7,7 @@
 
       return {
         login: function (user, success, error) {
-          return $http.put('/api/login', {email: user.email, password: user.pass}).then(function (response) {
+          return $http.put('/api/login', user).then(function (response) {
             success(response);
           }, function (err) {
             error(err);
@@ -15,7 +15,7 @@
         },
 
         create: function (user, success, error) {
-          return $http.post('/api/create', {email: user.email, password: user.pass}).then(function (response) {
+          return $http.post('/api/user', user).then(function (response) {
             success(response);
           }, function (err) {
             error(err);

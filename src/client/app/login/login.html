@@ -6,15 +6,17 @@
 <div class="login-page">
   <div class="form">
     <form class="register-form">
-      <input ng-model="newUser.email" type="text" placeholder="email"/>
-      <input ng-model="newUser.pass" type="password" placeholder="password"/>
-      <!--<input type="text" placeholder="email address"/>-->
+      <input ng-model="newUser.name" type="text" placeholder="name"/>
+      <input ng-model="newUser.email" type="email" placeholder="email"/>
+      <input ng-model="newUser.phone" type="text" placeholder="phone"/>
+      <input ng-model="newUser.address" type="text" placeholder="address"/>
+      <input ng-model="newUser.password" type="password" placeholder="password"/>
       <button ng-click="vm.create(newUser)">create</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
     <form class="login-form">
       <input ng-model="user.email" type="text" placeholder="email" required/>
-      <input ng-model="user.pass" type="password" placeholder="password" required/>
+      <input ng-model="user.password" type="password" placeholder="password" required/>
       <button ng-click="vm.login(user)">login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
