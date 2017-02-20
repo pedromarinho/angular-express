@@ -11,27 +11,25 @@ router.get('/user', authentication, function (req, res) {
   });
 });
 
-router.post('/user', function (req, res) {
+router.post('/register', function (req, res) {
   console.log('create user ', req.body);
   var newUser = req.body;
-  newUser.token = jwt.sign({email: newUser.email, password: newUser.password}, 'secret', {expiresIn: '1h'})
+  newUser.token = jwt.sign(newUser, 'secret', {expiresIn: '1h'});
   var user = new User(newUser);
   user.save(function (err, doc) {
     if (err) {
       res.status(400).send({error: err});
     } else {
-      res.send({token: doc.token});
+      res.send({email: doc.email, token: doc.token});
     }
   });
 });
 
 router.put('/login', function (req, res) {
   console.log('login ', req.body);
-  var reqUser = {email: req.body.email, password: req.body.password};
-  console.log(req.body);
-  User.findOneAndUpdate(reqUser, {
+  User.findOneAndUpdate(req.body, {
     $set: {
-      token: jwt.sign(reqUser, 'secret', {expiresIn: '1h'})
+      token: jwt.sign(req.body, 'secret', {expiresIn: '1h'})
     }
   }, {new: true}, function (err, user) {
     if (err) {
@@ -41,13 +39,26 @@ router.put('/login', function (req, res) {
     } else {
       if (user) {
         res.send({
-          token: user.token
+          email: user.email, token: user.token
         });
       } else {
         res.status(400).send({
           error: "Incorrect email or password"
         });
       }
+    }
+  });
+});
+
+router.put('/logout', authentication, function (req, res) {
+  console.log('logout ', req.headers['email']);
+  User.findOneAndUpdate({email: req.headers['email']}, {
+    $set: {
+      token: ''
+    }
+  }, {new: true}, function (err, user) {
+    if (user) {
+      res.end();
     }
   });
 });

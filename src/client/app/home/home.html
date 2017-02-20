@@ -1,6 +1,9 @@
 <div>
   <h1>{{vm.title}}</h1>
 
+  <p>{{vm.user}}</p>
+  <button ng-click="vm.logout()">Sair</button>
+
   <button ng-click="vm.getUsers()">Show users</button>
 
   <div>
@@ -20,7 +23,9 @@
         <td>{{user.email}}</td>
         <td>{{user.phone}}</td>
         <td>{{user.address}}</td>
-        <td><button ng-click="vm.deleteUser(user._id)">Delete</button></td>
+        <td>
+          <button ng-click="vm.deleteUser(user._id)">Delete</button>
+        </td>
       </tr>
       </tbody>
     </table>
